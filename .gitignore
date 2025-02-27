@@ -1,0 +1,2 @@
+# Dependencies（依赖）
+node_modules/           # npm安装的所有依赖包的目录

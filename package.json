@@ -1,0 +1,16 @@
+{
+  "name": "iphone-weight-tracker",
+  "version": "1.0.0",
+  "description": "- 手机重量排行榜 \t- 只包含iPhone的以下信息 \t\t- 型号和重量",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.13.3"
+  }
+}
