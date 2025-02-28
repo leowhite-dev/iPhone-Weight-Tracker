@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+import { Pool } from 'pg'; 
 
 const pool = new Pool({
     host: 'localhost',
@@ -21,15 +21,7 @@ async function initDatabase() {
         // 检查表是否为空
         const result = await pool.query('SELECT COUNT(*) FROM iphones');
         if (result.rows[0].count === '0') {
-            // 插入数据
-            const iphoneData = require('./iphone_weights.json');
-            for (const phone of iphoneData) {
-                await pool.query(
-                    'INSERT INTO iphones (model_name, weight_g) VALUES ($1, $2)',
-                    [phone.model_name, phone.weight_g]
-                );
-            }
-            console.log('数据初始化完成');
+            console.log('请手动插入数据');
         } else {
             console.log('表中已有数据，跳过初始化');
         }
