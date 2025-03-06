@@ -3,135 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone 重量排行榜</title>
+    <title>iPhone 重量对比</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 800px;
+            max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f7;
+            background-color: #f9f9f9;
+            color: #333;
         }
         
         h1 {
-            color: #1d1d1f;
             text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 24px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         th, td {
             padding: 12px 15px;
             text-align: left;
-            border-bottom: 1px solid #e6e6e6;
+            border-bottom: 1px solid #eee;
         }
 
         th {
-            background-color: #007AFF;
-            color: white;
+            background-color: #f2f2f2;
+            font-weight: 500;
+            color: #333;
             cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE/Edge */
         }
 
-        tr:hover {
-            background-color: #f5f5f7;
+        th span {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            pointer-events: none; /* 防止事件冒泡到子元素 */
         }
 
-        .sort-icon::after {
-            content: '↕️';
+        th:hover {
+            background-color: #e8e8e8;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .sort-indicator {
+            display: inline-block;
+            width: 0;
+            height: 0;
             margin-left: 5px;
-            font-size: 0.8em;
+            vertical-align: middle;
         }
 
-        .sort-asc::after {
-            content: '↑';
+        .sort-asc .sort-indicator {
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 6px solid #666;
         }
 
-        .sort-desc::after {
-            content: '↓';
+        .sort-desc .sort-indicator {
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 6px solid #666;
         }
     </style>
 </head>
 <body>
-    <h1>iPhone 重量排行榜</h1>
+    <h1>iPhone 重量对比表</h1>
     <table id="iphone-table">
         <thead>
             <tr>
-                <th data-sort="model_name">型号</th>
-                <th data-sort="weight_g">重量 (g)</th>
+                <th data-sort="model_name">型号 <span class="sort-indicator"></span></th>
+                <th data-sort="weight_g">重量 (g) <span class="sort-indicator"></span></th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody id="table-body"></tbody>
     </table>
 
     <script>
+        // 全局变量存储数据和排序状态
+        let phoneData = [];
+        let currentSort = {
+            column: 'model_name',
+            direction: 'asc'
+        };
+
+        // 加载数据
         async function loadData() {
             try {
                 const response = await fetch('/api/iphones');
-                const data = await response.json();
-                return data;
+                phoneData = await response.json();
+                renderTable();
             } catch (error) {
                 console.error('加载数据失败:', error);
-                return [];
+                document.getElementById('table-body').innerHTML = 
+                    '<tr><td colspan="2" style="text-align:center">数据加载失败</td></tr>';
             }
         }
 
-        function renderTable(data, sortBy = 'model_name', sortOrder = 'asc') {
-            const tbody = document.querySelector('#iphone-table tbody');
-            const sortedData = [...data].sort((a, b) => {
-                const aValue = a[sortBy];
-                const bValue = b[sortBy];
-                return sortOrder === 'asc' 
-                    ? (aValue > bValue ? 1 : -1)
-                    : (aValue < bValue ? 1 : -1);
+        // 渲染表格
+        function renderTable() {
+            // 排序数据
+            const sortedData = [...phoneData].sort((a, b) => {
+                const aValue = a[currentSort.column];
+                const bValue = b[currentSort.column];
+                
+                if (currentSort.column === 'weight_g') {
+                    // 数字排序
+                    return currentSort.direction === 'asc' 
+                        ? aValue - bValue 
+                        : bValue - aValue;
+                } else {
+                    // 字符串排序
+                    return currentSort.direction === 'asc' 
+                        ? aValue.localeCompare(bValue)
+                        : bValue.localeCompare(aValue);
+                }
             });
 
-            tbody.innerHTML = sortedData.map(phone => `
+            // 生成表格HTML
+            const tableBody = document.getElementById('table-body');
+            tableBody.innerHTML = sortedData.map(phone => `
                 <tr>
                     <td>${phone.model_name}</td>
                     <td>${phone.weight_g}</td>
                 </tr>
             `).join('');
+
+            // 更新排序指示器
+            updateSortIndicators();
         }
 
-        function initializeSorting() {
-            const headers = document.querySelectorAll('th[data-sort]');
-            headers.forEach(header => {
-                header.classList.add('sort-icon');
-                header.addEventListener('click', () => {
-                    const sortBy = header.dataset.sort;
-                    const currentOrder = header.classList.contains('sort-asc') ? 'desc' : 'asc';
+        // 更新排序指示器
+        function updateSortIndicators() {
+            // 重置所有表头
+            document.querySelectorAll('th').forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+            });
+            
+            // 设置当前排序表头
+            const currentHeader = document.querySelector(`th[data-sort="${currentSort.column}"]`);
+            currentHeader.classList.add(`sort-${currentSort.direction}`);
+        }
+
+        // 初始化排序功能
+        function initSorting() {
+            document.querySelectorAll('th[data-sort]').forEach(th => {
+                // 防止双击选中
+                th.addEventListener('mousedown', (e) => {
+                    if (e.detail > 1) {
+                        e.preventDefault();
+                    }
+                });
+                
+                th.addEventListener('click', () => {
+                    const column = th.dataset.sort;
                     
-                    // 重置所有表头的排序状态
-                    headers.forEach(h => {
-                        h.classList.remove('sort-asc', 'sort-desc');
-                        h.classList.add('sort-icon');
-                    });
-
-                    // 设置当前表头的排序状态
-                    header.classList.remove('sort-icon');
-                    header.classList.add(`sort-${currentOrder}`);
-
-                    // 重新渲染表格
-                    renderTable(window.phoneData, sortBy, currentOrder);
+                    // 切换排序方向
+                    if (currentSort.column === column) {
+                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        currentSort.column = column;
+                        currentSort.direction = 'asc';
+                    }
+                    
+                    renderTable();
                 });
             });
         }
 
-        // 初始化页面
-        async function initialize() {
-            window.phoneData = await loadData();
-            renderTable(window.phoneData);
-            initializeSorting();
-        }
-
-        initialize();
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            initSorting();
+            loadData();
+        });
     </script>
 </body>
 </html> 
