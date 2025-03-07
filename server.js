@@ -15,7 +15,7 @@ const server = http.createServer(async (req, res) => {
     // API 路由处理
     if (req.url === '/api/iphones') {
         try {
-            const result = await pool.query('SELECT * FROM iphones ORDER BY id');
+            const result = await pool.query('SELECT id, model_name, weight_g, release_year FROM iphones ORDER BY id');
             res.writeHead(200, { 
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'

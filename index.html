@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f9f9f9;
@@ -91,6 +91,7 @@
             <tr>
                 <th data-sort="model_name">型号 <span class="sort-indicator"></span></th>
                 <th data-sort="weight_g">重量 (g) <span class="sort-indicator"></span></th>
+                <th data-sort="release_year">发布年份 <span class="sort-indicator"></span></th>
             </tr>
         </thead>
         <tbody id="table-body"></tbody>
@@ -100,8 +101,8 @@
         // 全局变量存储数据和排序状态
         let phoneData = [];
         let currentSort = {
-            column: 'model_name',
-            direction: 'asc'
+            column: 'release_year',  // 默认按发布年份排序
+            direction: 'desc'        // 默认降序（新款在前）
         };
 
         // 加载数据
@@ -113,7 +114,7 @@
             } catch (error) {
                 console.error('加载数据失败:', error);
                 document.getElementById('table-body').innerHTML = 
-                    '<tr><td colspan="2" style="text-align:center">数据加载失败</td></tr>';
+                    '<tr><td colspan="3" style="text-align:center">数据加载失败</td></tr>';
             }
         }
 
@@ -124,7 +125,7 @@
                 const aValue = a[currentSort.column];
                 const bValue = b[currentSort.column];
                 
-                if (currentSort.column === 'weight_g') {
+                if (currentSort.column === 'weight_g' || currentSort.column === 'release_year') {
                     // 数字排序
                     return currentSort.direction === 'asc' 
                         ? aValue - bValue 
@@ -143,6 +144,7 @@
                 <tr>
                     <td>${phone.model_name}</td>
                     <td>${phone.weight_g}</td>
+                    <td>${phone.release_year || '未知'}</td>
                 </tr>
             `).join('');
 
@@ -175,12 +177,18 @@
                 th.addEventListener('click', () => {
                     const column = th.dataset.sort;
                     
-                    // 切换排序方向
-                    if (currentSort.column === column) {
-                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    // 如果是型号列，强制按发布年份降序排序
+                    if (column === 'model_name') {
+                        currentSort.column = 'release_year';
+                        currentSort.direction = 'desc';
                     } else {
-                        currentSort.column = column;
-                        currentSort.direction = 'asc';
+                        // 其他列保持原有排序逻辑
+                        if (currentSort.column === column) {
+                            currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                        } else {
+                            currentSort.column = column;
+                            currentSort.direction = 'asc';
+                        }
                     }
                     
                     renderTable();

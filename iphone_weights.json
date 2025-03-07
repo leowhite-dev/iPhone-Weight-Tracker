@@ -1,237 +1,284 @@
 [
   {
-    "id": 1,
-    "model_name": "iPhone 2G",
-    "weight_g": 135
-  },
-  {
     "id": 2,
     "model_name": "iPhone 3G",
-    "weight_g": 133
+    "weight_g": 133,
+    "release_year": 2008
   },
   {
     "id": 3,
     "model_name": "iPhone 3GS",
-    "weight_g": 133
+    "weight_g": 133,
+    "release_year": 2009
   },
   {
     "id": 4,
     "model_name": "iPhone 4",
-    "weight_g": 137
+    "weight_g": 137,
+    "release_year": 2010
   },
   {
     "id": 5,
     "model_name": "iPhone 4S",
-    "weight_g": 140
+    "weight_g": 140,
+    "release_year": 2011
   },
   {
     "id": 6,
     "model_name": "iPhone 5",
-    "weight_g": 112
+    "weight_g": 112,
+    "release_year": 2012
   },
   {
     "id": 7,
     "model_name": "iPhone 5C",
-    "weight_g": 132
+    "weight_g": 132,
+    "release_year": 2013
   },
   {
     "id": 8,
     "model_name": "iPhone 5S",
-    "weight_g": 112
+    "weight_g": 112,
+    "release_year": 2013
   },
   {
     "id": 9,
     "model_name": "iPhone 6",
-    "weight_g": 129
+    "weight_g": 129,
+    "release_year": 2014
   },
   {
     "id": 10,
     "model_name": "iPhone 6 Plus",
-    "weight_g": 172
+    "weight_g": 172,
+    "release_year": 2014
   },
   {
     "id": 11,
     "model_name": "iPhone 6S",
-    "weight_g": 143
+    "weight_g": 143,
+    "release_year": 2015
   },
   {
     "id": 12,
     "model_name": "iPhone 6S Plus",
-    "weight_g": 192
+    "weight_g": 192,
+    "release_year": 2015
   },
   {
     "id": 13,
     "model_name": "iPhone SE (1st generation)",
-    "weight_g": 113
+    "weight_g": 113,
+    "release_year": 2016
   },
   {
     "id": 14,
     "model_name": "iPhone 7",
-    "weight_g": 138
+    "weight_g": 138,
+    "release_year": 2016
   },
   {
     "id": 15,
     "model_name": "iPhone 7 Plus",
-    "weight_g": 188
+    "weight_g": 188,
+    "release_year": 2016
   },
   {
     "id": 16,
     "model_name": "iPhone 8",
-    "weight_g": 148
+    "weight_g": 148,
+    "release_year": 2017
   },
   {
     "id": 17,
     "model_name": "iPhone 8 Plus",
-    "weight_g": 202
+    "weight_g": 202,
+    "release_year": 2017
   },
   {
     "id": 18,
     "model_name": "iPhone X",
-    "weight_g": 174
+    "weight_g": 174,
+    "release_year": 2017
   },
   {
     "id": 19,
     "model_name": "iPhone XR",
-    "weight_g": 194
+    "weight_g": 194,
+    "release_year": 2018
   },
   {
     "id": 20,
     "model_name": "iPhone XS",
-    "weight_g": 177
+    "weight_g": 177,
+    "release_year": 2018
   },
   {
     "id": 21,
     "model_name": "iPhone XS Max",
-    "weight_g": 208
+    "weight_g": 208,
+    "release_year": 2018
   },
   {
     "id": 22,
     "model_name": "iPhone 11",
-    "weight_g": 194
+    "weight_g": 194,
+    "release_year": 2019
   },
   {
     "id": 23,
     "model_name": "iPhone 11 Pro",
-    "weight_g": 188
+    "weight_g": 188,
+    "release_year": 2019
   },
   {
     "id": 24,
     "model_name": "iPhone 11 Pro Max",
-    "weight_g": 226
+    "weight_g": 226,
+    "release_year": 2019
   },
   {
     "id": 25,
     "model_name": "iPhone SE (2nd generation)",
-    "weight_g": 148
-  },
-  {
-    "id": 26,
-    "model_name": "iPhone 12 mini",
-    "weight_g": 133
+    "weight_g": 148,
+    "release_year": 2020
   },
   {
     "id": 27,
     "model_name": "iPhone 12",
-    "weight_g": 164
+    "weight_g": 164,
+    "release_year": 2020
   },
   {
     "id": 28,
     "model_name": "iPhone 12 Pro",
-    "weight_g": 187
+    "weight_g": 187,
+    "release_year": 2020
   },
   {
     "id": 29,
     "model_name": "iPhone 12 Pro Max",
-    "weight_g": 228
-  },
-  {
-    "id": 30,
-    "model_name": "iPhone 13 mini",
-    "weight_g": 140
+    "weight_g": 228,
+    "release_year": 2020
   },
   {
     "id": 31,
     "model_name": "iPhone 13",
-    "weight_g": 178
+    "weight_g": 178,
+    "release_year": 2021
   },
   {
     "id": 32,
     "model_name": "iPhone 13 Pro",
-    "weight_g": 203
+    "weight_g": 203,
+    "release_year": 2021
   },
   {
     "id": 33,
     "model_name": "iPhone 13 Pro Max",
-    "weight_g": 238
+    "weight_g": 238,
+    "release_year": 2021
   },
   {
     "id": 34,
     "model_name": "iPhone SE (3rd generation)",
-    "weight_g": 144
+    "weight_g": 144,
+    "release_year": 2022
   },
   {
     "id": 35,
     "model_name": "iPhone 14",
-    "weight_g": 178
+    "weight_g": 178,
+    "release_year": 2022
   },
   {
     "id": 36,
     "model_name": "iPhone 14 Plus",
-    "weight_g": 203
+    "weight_g": 203,
+    "release_year": 2022
   },
   {
     "id": 37,
     "model_name": "iPhone 14 Pro",
-    "weight_g": 206
+    "weight_g": 206,
+    "release_year": 2022
   },
   {
     "id": 38,
     "model_name": "iPhone 14 Pro Max",
-    "weight_g": 240
+    "weight_g": 240,
+    "release_year": 2022
   },
   {
     "id": 39,
     "model_name": "iPhone 15",
-    "weight_g": 171
+    "weight_g": 171,
+    "release_year": 2023
   },
   {
     "id": 40,
     "model_name": "iPhone 15 Plus",
-    "weight_g": 201
+    "weight_g": 201,
+    "release_year": 2023
   },
   {
     "id": 41,
     "model_name": "iPhone 15 Pro",
-    "weight_g": 187
+    "weight_g": 187,
+    "release_year": 2023
   },
   {
     "id": 42,
     "model_name": "iPhone 15 Pro Max",
-    "weight_g": 221
+    "weight_g": 221,
+    "release_year": 2023
   },
   {
     "id": 43,
     "model_name": "iPhone 16",
-    "weight_g": 170
+    "weight_g": 170,
+    "release_year": 2024
   },
   {
     "id": 44,
     "model_name": "iPhone 16 Plus",
-    "weight_g": 199
+    "weight_g": 199,
+    "release_year": 2024
   },
   {
     "id": 45,
     "model_name": "iPhone 16 Pro",
-    "weight_g": 199
+    "weight_g": 199,
+    "release_year": 2024
   },
   {
     "id": 46,
     "model_name": "iPhone 16 Pro Max",
-    "weight_g": 227
+    "weight_g": 227,
+    "release_year": 2024
   },
   {
     "id": 47,
     "model_name": "iPhone 16e",
-    "weight_g": 167
+    "weight_g": 167,
+    "release_year": 2025
+  },
+  {
+    "id": 1,
+    "model_name": "iPhone 2G",
+    "weight_g": 135,
+    "release_year": 2007
+  },
+  {
+    "id": 26,
+    "model_name": "iPhone 12 mini",
+    "weight_g": 133,
+    "release_year": 2020
+  },
+  {
+    "id": 30,
+    "model_name": "iPhone 13 mini",
+    "weight_g": 140,
+    "release_year": 2021
   }
 ]
