@@ -12,6 +12,7 @@
             padding: 20px;
             background-color: #f9f9f9;
             color: #333;
+            position: relative;
         }
         
         h1 {
@@ -19,6 +20,91 @@
             margin-bottom: 30px;
             color: #333;
             font-size: 24px;
+        }
+
+        .version-dropdown {
+            position: absolute;
+            top: 40px;
+            left: -240px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .version-label {
+            color: #666;
+            font-size: 16px;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .version-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .version-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: white;
+            color: #666;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .version-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        .version-btn.active {
+            background-color: #007aff;
+            color: white;
+            border-color: #0066cc;
+            font-weight: 600;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 5px;
+            background-color: white;
+            min-width: 36px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .version-option {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .version-option:hover {
+            background-color: #f5f5f5;
+        }
+
+        .main-content {
+            margin-top: 20px;
         }
 
         table {
@@ -85,17 +171,34 @@
     </style>
 </head>
 <body>
+    <!-- 版本切换下拉框 -->
+    <div class="version-dropdown">
+        <span class="version-label">筛选形式</span>
+        <div class="version-selector">
+            <button id="current-version" class="version-btn active">A</button>
+            <div id="version-options" class="dropdown-content">
+                <div class="version-option" data-version="a">A</div>
+                <div class="version-option" data-version="b">B</div>
+                <div class="version-option" data-version="c">C</div>
+                <div class="version-option" data-version="d">D</div>
+            </div>
+        </div>
+    </div>
+
     <h1>iPhone 重量对比表</h1>
-    <table id="iphone-table">
-        <thead>
-            <tr>
-                <th data-sort="model_name">型号 <span class="sort-indicator"></span></th>
-                <th data-sort="weight_g">重量 (g) <span class="sort-indicator"></span></th>
-                <th data-sort="release_year">发布年份 <span class="sort-indicator"></span></th>
-            </tr>
-        </thead>
-        <tbody id="table-body"></tbody>
-    </table>
+
+    <div class="main-content">
+        <table id="iphone-table">
+            <thead>
+                <tr>
+                    <th data-sort="model_name">型号 <span class="sort-indicator"></span></th>
+                    <th data-sort="weight_g">重量 (g) <span class="sort-indicator"></span></th>
+                    <th data-sort="release_year">发布年份 <span class="sort-indicator"></span></th>
+                </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+    </div>
 
     <script>
         // 全局变量存储数据和排序状态
@@ -104,6 +207,7 @@
             column: 'release_year',  // 默认按发布年份排序
             direction: 'desc'        // 默认降序（新款在前）
         };
+        let currentVersion = 'a'; // 默认版本A
 
         // 加载数据
         async function loadData() {
@@ -196,9 +300,46 @@
             });
         }
 
+        // 初始化版本切换
+        function initVersionSwitcher() {
+            const currentVersionBtn = document.getElementById('current-version');
+            const versionOptions = document.getElementById('version-options');
+            const optionElements = document.querySelectorAll('.version-option');
+            
+            // 点击当前版本按钮时显示/隐藏下拉选项
+            currentVersionBtn.addEventListener('click', () => {
+                versionOptions.classList.toggle('show');
+            });
+            
+            // 点击选项时切换版本
+            optionElements.forEach(option => {
+                option.addEventListener('click', () => {
+                    const version = option.dataset.version;
+                    currentVersion = version;
+                    
+                    // 更新按钮文本
+                    currentVersionBtn.textContent = option.textContent;
+                    
+                    // 隐藏下拉选项
+                    versionOptions.classList.remove('show');
+                    
+                    // 这里将来会添加不同版本的功能实现
+                    console.log(`切换到形式 ${version}`);
+                });
+            });
+            
+            // 点击页面其他地方时隐藏下拉选项
+            document.addEventListener('click', (event) => {
+                if (!event.target.closest('.version-selector')) {
+                    versionOptions.classList.remove('show');
+                }
+            });
+        }
+
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', () => {
             initSorting();
+            initVersionSwitcher();
             loadData();
         });
     </script>
