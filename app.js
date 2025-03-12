@@ -421,15 +421,18 @@ function initSorting() {
 // 切换筛选形式
 function showVersionForm(version) {
     // 隐藏所有筛选形式
-    document.querySelectorAll('.filter-container').forEach(form => {
-        form.classList.add('hidden');
+    document.querySelectorAll('.filter-container').forEach(element => {
+        element.classList.add('hidden');
     });
     
     // 显示当前版本的筛选形式
     document.getElementById(`filter-form-${version}`).classList.remove('hidden');
     
-    // 重置筛选状态并重新渲染表格
-    resetFilters();
+    // 更新当前版本
+    currentVersion = version;
+    
+    // 重置筛选内容，但保持筛选开关状态
+    resetFiltersWithoutToggle();
 }
 
 // 重置筛选状态
@@ -464,13 +467,27 @@ function initSingleVersionSwitcher(btnId, optionsId, defaultVersion) {
     const optionElements = versionOptions.querySelectorAll('.version-option');
     
     // 点击当前版本按钮时显示/隐藏下拉选项
-    currentVersionBtn.addEventListener('click', () => {
+    currentVersionBtn.addEventListener('click', (event) => {
+        // 阻止事件冒泡
+        event.stopPropagation();
+        
+        // 计算下拉菜单的位置
+        if (!versionOptions.classList.contains('show')) {
+            const btnRect = currentVersionBtn.getBoundingClientRect();
+            versionOptions.style.top = (btnRect.bottom + 5) + 'px';
+            versionOptions.style.left = btnRect.left + 'px';
+        }
+        
+        // 切换显示状态
         versionOptions.classList.toggle('show');
     });
     
     // 点击选项时切换版本
     optionElements.forEach(option => {
-        option.addEventListener('click', () => {
+        option.addEventListener('click', (event) => {
+            // 阻止事件冒泡
+            event.stopPropagation();
+            
             const version = option.dataset.version;
             currentVersion = version;
             
@@ -486,6 +503,11 @@ function initSingleVersionSwitcher(btnId, optionsId, defaultVersion) {
             
             // 显示对应版本的筛选形式
             showVersionForm(version);
+            
+            // 更新筛选区域可见性（根据当前筛选开关状态）
+            if (window.updateFilterVisibility) {
+                window.updateFilterVisibility();
+            }
         });
     });
     
@@ -499,11 +521,73 @@ function initSingleVersionSwitcher(btnId, optionsId, defaultVersion) {
     });
 }
 
+// 初始化筛选开关
+function initFilterToggle() {
+    const filterToggle = document.getElementById('filter-toggle-checkbox');
+    const filterContainers = document.querySelectorAll('.filter-container');
+    
+    // 检查筛选开关的状态并相应地显示/隐藏筛选区域
+    function updateFilterVisibility() {
+        const isFilterEnabled = filterToggle.checked;
+        
+        // 显示/隐藏筛选区域
+        filterContainers.forEach(container => {
+            if (isFilterEnabled) {
+                // 如果开启筛选，则根据当前选择的筛选形式显示对应的筛选区域
+                if (container.id === `filter-form-${currentVersion}`) {
+                    container.classList.remove('hidden');
+                } else {
+                    container.classList.add('hidden');
+                }
+            } else {
+                // 如果关闭筛选，则隐藏所有筛选区域
+                container.classList.add('hidden');
+            }
+        });
+        
+        // 如果关闭筛选，重置筛选并显示所有数据
+        if (!isFilterEnabled) {
+            resetFiltersWithoutToggle();
+        }
+    }
+    
+    // 初始状态下更新筛选区域可见性
+    updateFilterVisibility();
+    
+    // 监听筛选开关的变化
+    filterToggle.addEventListener('change', updateFilterVisibility);
+    
+    // 导出函数以便其他地方调用
+    window.updateFilterVisibility = updateFilterVisibility;
+}
+
+// 重置筛选状态，但不包括筛选开关
+function resetFiltersWithoutToggle() {
+    // 重置搜索框
+    document.querySelectorAll('.search-input').forEach(input => {
+        input.value = '';
+    });
+    
+    // 重置复选框（除了筛选开关）
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        if (checkbox.id !== 'filter-toggle-checkbox') {
+            checkbox.checked = false;
+        }
+    });
+    
+    // 重置筛选数据
+    filteredData = [...phoneData];
+    renderTable();
+}
+
 // 在页面加载完成后执行
 window.addEventListener('DOMContentLoaded', function() {
     initSorting();
     initVersionSwitcher();
     loadData();
+    
+    // 初始化筛选开关
+    initFilterToggle();
     
     // 添加一些全局事件处理
     document.addEventListener('click', function(event) {
