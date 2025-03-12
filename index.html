@@ -7,21 +7,111 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <!-- 版本切换下拉框 -->
-    <div class="version-dropdown">
-        <span class="version-label">筛选形式</span>
-        <div class="version-selector">
-            <button id="current-version" class="version-btn active">A</button>
-            <div id="version-options" class="dropdown-content">
-                <div class="version-option" data-version="a">A</div>
-                <div class="version-option" data-version="b">B</div>
-                <div class="version-option" data-version="c">C</div>
-                <div class="version-option" data-version="d">D</div>
+    <h1>iPhone 重量对比表</h1>
+
+    <!-- 形式A的筛选区域：单选搜索，显示单个手机信息 -->
+    <div id="filter-form-a" class="filter-container">
+        <div class="filter-header">
+            <div class="version-dropdown">
+                <span class="version-label">筛选形式</span>
+                <div class="version-selector">
+                    <button id="current-version" class="version-btn active">A</button>
+                    <div id="version-options" class="dropdown-content">
+                        <div class="version-option" data-version="a">A</div>
+                        <div class="version-option" data-version="b">B</div>
+                        <div class="version-option" data-version="c">C</div>
+                        <div class="version-option" data-version="d">D</div>
+                    </div>
+                </div>
+            </div>
+            <div class="search-box">
+                <input type="text" id="search-a" class="search-input" placeholder="输入iPhone型号查找信息...">
+                <div id="autocomplete-a" class="autocomplete-items"></div>
             </div>
         </div>
     </div>
 
-    <h1>iPhone 重量对比表</h1>
+    <!-- 形式B的筛选区域：单选搜索，滚动到对应手机 -->
+    <div id="filter-form-b" class="filter-container hidden">
+        <div class="filter-header">
+            <div class="version-dropdown">
+                <span class="version-label">筛选形式</span>
+                <div class="version-selector">
+                    <button id="current-version-b" class="version-btn active">B</button>
+                    <div id="version-options-b" class="dropdown-content">
+                        <div class="version-option" data-version="a">A</div>
+                        <div class="version-option" data-version="b">B</div>
+                        <div class="version-option" data-version="c">C</div>
+                        <div class="version-option" data-version="d">D</div>
+                    </div>
+                </div>
+            </div>
+            <div class="search-box">
+                <input type="text" id="search-b" class="search-input" placeholder="输入iPhone型号查找位置...">
+                <div id="autocomplete-b" class="autocomplete-items"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 形式C的筛选区域：多选功能 -->
+    <div id="filter-form-c" class="filter-container hidden">
+        <div class="filter-header">
+            <div class="version-dropdown">
+                <span class="version-label">筛选形式</span>
+                <div class="version-selector">
+                    <button id="current-version-c" class="version-btn active">C</button>
+                    <div id="version-options-c" class="dropdown-content">
+                        <div class="version-option" data-version="a">A</div>
+                        <div class="version-option" data-version="b">B</div>
+                        <div class="version-option" data-version="c">C</div>
+                        <div class="version-option" data-version="d">D</div>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-groups">
+                <div class="filter-group">
+                    <h3>系列</h3>
+                    <div id="series-filters" class="checkbox-group"></div>
+                </div>
+                <div class="filter-group">
+                    <h3>版本类型</h3>
+                    <div id="version-filters" class="checkbox-group"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 形式D的筛选区域：多选+搜索 -->
+    <div id="filter-form-d" class="filter-container hidden">
+        <div class="filter-header">
+            <div class="version-dropdown">
+                <span class="version-label">筛选形式</span>
+                <div class="version-selector">
+                    <button id="current-version-d" class="version-btn active">D</button>
+                    <div id="version-options-d" class="dropdown-content">
+                        <div class="version-option" data-version="a">A</div>
+                        <div class="version-option" data-version="b">B</div>
+                        <div class="version-option" data-version="c">C</div>
+                        <div class="version-option" data-version="d">D</div>
+                    </div>
+                </div>
+            </div>
+            <div class="search-box">
+                <input type="text" id="search-d" class="search-input" placeholder="输入iPhone型号查找信息...">
+                <div id="autocomplete-d" class="autocomplete-items"></div>
+            </div>
+            <div class="filter-groups">
+                <div class="filter-group">
+                    <h3>系列</h3>
+                    <div id="series-filters-d" class="checkbox-group"></div>
+                </div>
+                <div class="filter-group">
+                    <h3>版本类型</h3>
+                    <div id="version-filters-d" class="checkbox-group"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="main-content">
         <table id="iphone-table">
